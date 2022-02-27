@@ -68,9 +68,9 @@ def user_login():
         return redirect('/login')
     data = {'email': request.form['email']}
     user_with_email = Users.get_by_email(data)
-    user_id = user_with_email.id
+    userID = user_with_email.id
     if 'user_id' in session:
-        return redirect(f'/profile/{user_id}')
+        return redirect(f'/profile/{userID}')
     if user_with_email == False:
         flash("Invalid Email/Password.")
         return redirect('/')
