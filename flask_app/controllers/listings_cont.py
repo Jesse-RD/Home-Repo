@@ -82,3 +82,4 @@ def delete_listing(userID, listingID):
     }
     Listings.delete_listing(data)
     return redirect(f'/profile/{userID}')
+    

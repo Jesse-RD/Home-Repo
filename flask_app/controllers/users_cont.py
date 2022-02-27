@@ -85,3 +85,4 @@ def user_login():
 def logout():
     session.clear()
     return redirect('/')
+    
