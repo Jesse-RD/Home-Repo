@@ -10,9 +10,10 @@ class Listings:
         self.description = data['description']
         self.listPrice = data['listPrice']
         self.imgURL = data['imgURL']
-        self.created_at = data['created_at']
-        self.updated_at = data['updated_at']
-        self.user = []
+        self.createDate = data['created_at']
+        self.updatedDate = data['updated_at']
+        self.useriD = data['updated_at']
+        self.likes = []
 
 # Confirm fields are filled out
     @staticmethod
@@ -47,43 +48,29 @@ class Listings:
 # Save new home listing
     @classmethod
     def save_listing(cls, data):
-        query = "INSERT INTO listings (title, description, listPrice, created_at, updated_at, userID) VALUES (%(title)s, %(description)s, %(listPrice)s, NOW(), NOW(), %(userID)s);"
+        query = "INSERT INTO listings (title, description, listPrice, createdDate, updatedDate, userID) VALUES (%(title)s, %(description)s, %(listPrice)s, NOW(), NOW(), %(userID)s);"
         results = connectToMySQL(cls.db_name).query_db(query, data)
         return results
 
-# View all home listings associated with user_id
+# Get all home listings, for public listing page
     @classmethod
-    def user_listings(cls):
-        query = "SELECT * FROM users LEFT JOIN listings ON userID = users.id;"
+    def get_listings(cls):
+        query = "SELECT * FROM listings;"
         results = connectToMySQL(cls.db_name).query_db(query)
+        if not results:
+            return False
+        
         all_listings = []
-        for db_row in results:
-            listing_data = {
-                'id': db_row['listings.id'],
-                'title': db_row['title'],
-                'description': db_row['description'],
-                'listPrice': db_row['listPrice'],
-                'created_at': db_row['created_at'],
-                'updated_at': db_row['updated_at']
-            }
-            one_listing = cls(listing_data)
-            user_data = {
-                'id': db_row['id'],
-                'first_name': db_row['first_name'],
-                'last_name': db_row['last_name'],
-                'email': db_row['email'],
-                'password': db_row['password'],
-                'created_at': db_row['created_at'],
-                'updated_at': db_row['updated_at']
-            }
-            one_user = user_mod.Users(user_data)
-            one_listing.user = one_user
-            all_listings.append(one_listing)
+
+        for row in results:
+            row['likes'] = Listings.get_listing_likes(row)
+            all_listings.append(row)
+        
         return all_listings
 
 # Get all home listings, for public listing page
     @classmethod
-    def get_listings(cls, data):
+    def get_one_listing(cls, data):
         query = "SELECT * FROM listings WHERE id = %(id)s;"
         results = connectToMySQL(cls.db_name).query_db(query, data)
         if not results:
@@ -93,7 +80,7 @@ class Listings:
 # Edit home listing
     @classmethod
     def update_listing(cls, data):
-        query = "UPDATE listings SET name=%(name)s, prod_desc=%(description)s, price=%(listPrice)s, updated_at=NOW() WHERE id = %(id)s"
+        query = "UPDATE listings SET name=%(name)s, prod_desc=%(description)s, price=%(listPrice)s, updatedDate=NOW() WHERE id = %(id)s"
         results = connectToMySQL(cls.db_name).query_db(query, data)
         return results
 
@@ -102,3 +89,22 @@ class Listings:
     def delete_listing(cls, data):
         query = "DELETE FROM listings WHERE id = %(id)s;"
         return connectToMySQL(cls.db_name).query_db(query, data)
+
+# Like a listing
+    @classmethod
+    def like_listing(cls, data):
+        query = "INSERT INTO likes (userID, listingID) VALUES (%(userID)s, %(listingID)s;"
+        results = connectToMySQL(cls.db_name).query_db(query, data)
+        return results       
+
+    @classmethod
+    def get_listing_likes(cls, data):
+        query = "SELECT DISTINCT userID FROM likes WHERE listingID = %(listingID)s"
+        result = connectToMySQL(cls.db_name).query_db(query, data)
+
+        liked_users = []
+
+        for row in result: 
+            liked_users.append(row)
+
+        return liked_users

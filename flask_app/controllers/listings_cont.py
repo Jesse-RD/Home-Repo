@@ -1,6 +1,6 @@
 from flask_app import app
 from flask import render_template, redirect, request, session
-from flask_app.models.lisiting_mod import Listings
+from flask_app.models.listing_mod import Listings
 from flask_app.models.user_mod import Users
 
 # Add template for "new listing"
@@ -8,6 +8,7 @@ from flask_app.models.user_mod import Users
 def create_listing(userID):
     if 'userID' not in session:
         return redirect('/')
+    
     userID = session['userID']
     return render_template('new_listing.html', current_user = userID)
 
@@ -17,6 +18,7 @@ def process_listing(userID):
     if not Listings.validate_listing(request.form):
         # Add template for "new listing"
         return redirect(f'/new_listing/{userID}') 
+    
     data = {
         'title': request.form['name'],
         'description': request.form['description'],
@@ -56,14 +58,14 @@ def edit_listing(userID, listingID):
     return render_template('edit_listing.html', current_user = userID, listing = one_listing)
 
 @app.route('/update_listing/<int:userID>/<listingID>', methods=['POST'])
-def update_listing(userID, productID):
+def update_listing(userID, listingID):
     userID = session['userID']
     if 'userID' not in session:
         return redirect('/')
     if not Listings.validate_edit(request.form):
-        return redirect(f'/edit_listing/{userID}/{productID}')
+        return redirect(f'/edit_listing/{userID}/{listingID}')
     data = {
-        'id': productID,
+        'id': listingID,
         'title': request.form['title'],
         'description': request.form['description'],
         'listPrice': request.form['listPrice'],
@@ -82,3 +84,20 @@ def delete_listing(userID, listingID):
     }
     Listings.delete_listing(data)
     return redirect(f'/profile/{userID}')
+
+@app.route('/like_listing/<int:userID>/<listingID>')
+def like_listing(userID, listingID):
+    if 'user_id' not in session:
+        return redirect('/')
+    data = {
+        'userID': userID,
+        'listingID' : listingID
+    }
+
+    Listings.like_listing(data)
+
+    return redirect(f'/listings/{listingID}')
+
+
+
+
