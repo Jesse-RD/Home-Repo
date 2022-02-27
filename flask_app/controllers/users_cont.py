@@ -12,9 +12,9 @@ bcrypt = Bcrypt(app)
 # Home Page
 @app.route('/')
 def home():
-    if 'user_id' in session:
+    if 'userID' in session:
         data = {
-        'id': session['user_id']
+        'id': session['userID']
         }
         one_user = Users.get_profile(data)
         return render_template('home.html', current_user = one_user)
@@ -24,9 +24,9 @@ def home():
 # Register Page
 @app.route('/register')
 def create_user():
-    if 'user_id' in session:
+    if 'userID' in session:
         data = {
-        'id': session['user_id']
+        'id': session['userID']
         }
         one_user = Users.get_profile(data)
         return render_template('register.html', current_user = one_user)
@@ -45,16 +45,16 @@ def process_user():
         'email': request.form['email'],
         'password': pw_hash
     }
-    user_id = Users.save_user(data)
-    session['user_id'] = user_id
+    userID = Users.save_user(data)
+    session['userID'] = userID
     return redirect('/')
 
 # Login Page
 @app.route('/login')
 def login_page():
-    if 'user_id' in session:
+    if 'userID' in session:
         data = {
-        'id': session['user_id']
+        'id': session['userID']
         }
         one_user = Users.get_profile(data)
         return render_template('home.html', current_user = one_user)
@@ -77,7 +77,7 @@ def user_login():
     if not bcrypt.check_password_hash(user_with_email.password, request.form['password']):
         flash("Invalid Email/Password.")
         return redirect('/')
-    session['user_id'] = user_with_email.id
+    session['userID'] = user_with_email.id
     return redirect('/')
 
 # Logout, for logout form/button
