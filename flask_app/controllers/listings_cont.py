@@ -8,7 +8,7 @@ from flask_app.models.user_mod import Users
 def create_listing(userID):
     if 'user_id' not in session:
         return redirect('/')
-    userID = session['user_id']
+    userID = session['userID']
     return render_template('new_listing.html', current_user = userID)
 
 @app.route('/process_listing/<int:userID>', methods=['POST'])
@@ -21,7 +21,7 @@ def process_listing(userID):
         'title': request.form['name'],
         'description': request.form['description'],
         'listPrice': request.form['listPrice'],
-        'user_id': session['user_id']
+        'userID': session['userID']
     }
     Listings.save_listing(data)
     # Add template for "profile" page
@@ -67,7 +67,7 @@ def update_listing(userID, productID):
         'title': request.form['title'],
         'description': request.form['description'],
         'listPrice': request.form['listPrice'],
-        'user_id': session['user_id']
+        'userID': session['userID']
     }
     Listings.update_listing(data)
     return redirect(f'/profile/{userID}')
