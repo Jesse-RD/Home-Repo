@@ -47,14 +47,14 @@ class Listings:
 # Save new home listing
     @classmethod
     def save_listing(cls, data):
-        query = "INSERT INTO listings (title, description, listPrice, created_at, updated_at, user_id) VALUES (%(title)s, %(description)s, %(listPrice)s, NOW(), NOW(), %(user_id)s);"
+        query = "INSERT INTO listings (title, description, listPrice, created_at, updated_at, userID) VALUES (%(title)s, %(description)s, %(listPrice)s, NOW(), NOW(), %(userID)s);"
         results = connectToMySQL(cls.db_name).query_db(query, data)
         return results
 
 # View all home listings associated with user_id
     @classmethod
     def user_listings(cls):
-        query = "SELECT * FROM users LEFT JOIN listings ON user_id = users.id;"
+        query = "SELECT * FROM users LEFT JOIN listings ON userID = users.id;"
         results = connectToMySQL(cls.db_name).query_db(query)
         all_listings = []
         for db_row in results:
