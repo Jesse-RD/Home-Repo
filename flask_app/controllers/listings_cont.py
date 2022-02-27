@@ -6,7 +6,7 @@ from flask_app.models.user_mod import Users
 # Add template for "new listing"
 @app.route('/new_listing/<int:userID>')
 def create_listing(userID):
-    if 'user_id' not in session:
+    if 'userID' not in session:
         return redirect('/')
     userID = session['userID']
     return render_template('new_listing.html', current_user = userID)
@@ -29,7 +29,7 @@ def process_listing(userID):
 
 @app.route('/listings/<int:listingID>')
 def all_listings(listingID):
-    if 'user_id' in session:
+    if 'userID' in session:
         user_data = {
             'id': session['userID']
         }
