@@ -17,7 +17,7 @@
     <div id="container">
         <div class="form">
             <h2>Register</h2>
-            <form action="/process_user">
+            <form action="/process_user" method="post">
                 <div class="txt_field">
                     <input type="text" required>
                     <span></span>
@@ -34,12 +34,12 @@
                     <label>Email</label>
                 </div>
                 <div class="txt_field">
-                    <input type="text" required>
+                    <input type="password" required>
                     <span></span>
                     <label>Password</label>
                 </div>
                 <div class="txt_field">
-                    <input type="text" required>
+                    <input type="password" required>
                     <span></span>
                     <label>Confirm Password</label>
                 </div>
@@ -48,14 +48,14 @@
         </div>
         <div class="form">
             <h2>Login</h2>
-            <form action="/process_login">
+            <form action="/process_login" method="post">
                 <div class="txt_field">
                     <input type="text" required>
                     <span></span>
                     <label>Email</label>
                 </div>
                 <div class="txt_field">
-                    <input type="text" required>
+                    <input type="password" required>
                     <span></span>
                     <label>Password</label>
                 </div>
