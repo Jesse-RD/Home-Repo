@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="dashboard.css">
+    <!--<link rel="stylesheet" href="{{url_for('static',filename='dashboard.css')}}">-->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Rubik&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <div id="content">
+            <h1>Home Repo</h1>
+            <div>
+                <button>My Profile</button>
+                <button id="logout_btn">Logout</button>
+            </div>
+        </div>
+    </header>
+    <main>
+        <!--For loop to create a new snippet of identical code for each entry-->
+        <div class="listing">
+            <p>Title <!--Jinja for title--></p>
+            <div>
+                <!--Jinja syntax in src input for the house photo url-->
+                <img class="house_img" src="images/house.jpg" alt="house">
+            </div>
+            <div class="list_info">
+                <p>Listed by: <!--Jinja for the lister name--></p>
+                <div class="likes">
+                    <img class="like_img" src="images/star.png" alt="like">
+                    <p>0<!--Jinja for number of likes--></p>
+                </div>
+            </div>
+        </div>
+        <!--End for loop-->
+    </main>
+</body>
+</html>

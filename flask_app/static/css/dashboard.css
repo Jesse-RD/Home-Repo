@@ -1,0 +1,97 @@
+*{
+    margin: 0;
+    padding: 0;
+    font-family: 'Rubik', sans-serif;
+}
+
+header{
+    background-color: #2666CF;
+    color: white;
+    padding: 20px;
+}
+
+#content{
+    width: 70%;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+button{
+    width: 90px;
+    padding: 5px 8px;
+    background-color: white;
+    border: 1px solid black;
+    font-size: 15px;
+}
+
+#logout_btn{
+    background-color:lightcoral;
+    margin-left: 10px;
+}
+
+button:hover{
+    cursor: pointer;
+    opacity: 80%;
+}
+
+h1{
+    font-size: 40px;
+}
+
+.house_img{
+    height: 100%;
+    width: 100%;
+}
+
+.like_img{
+    height: 20px;
+    margin-right: 5px;
+}
+
+.like_img:hover{
+    cursor: pointer;
+}
+
+main{
+    width: 70%;
+    margin: 0 auto;
+    display: grid;
+    grid-gap: 20px;
+    grid-template-columns: repeat(3,1fr);
+    padding: 10px;
+}
+
+.listing{
+    background-color: rgb(236, 236, 236);
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.list_info{
+    display: flex;
+    justify-content: space-between;
+}
+
+.likes{
+    display: flex;
+    align-items: center;
+}
+
+
+@media only screen and (max-width: 1024px){
+    main{
+        grid-template-columns: repeat(2,1fr);
+    }
+}
+
+@media only screen and (max-width: 768px){
+    main{
+        grid-template-columns: repeat(1,1fr);
+    }
+    
+    h1{
+        display: none;
+    }
+}
