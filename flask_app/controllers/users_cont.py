@@ -21,18 +21,6 @@ def home():
     else:
         return render_template('login.html', current_user = False, session = 0)
 
-# Register Page
-@app.route('/register')
-def create_user():
-    if 'userID' in session:
-        data = {
-        'id': session['userID']
-        }
-        one_user = Users.get_profile(data)
-        return render_template('register.html', current_user = one_user)
-    else:
-        return render_template('register.html', current_user = False, session = 0)
-
 # Process Register, for registration form
 @app.route('/process_user', methods=['POST'])
 def process_user():
@@ -48,18 +36,6 @@ def process_user():
     userID = Users.save_user(data)
     session['userID'] = userID
     return redirect('/')
-
-# Login Page
-@app.route('/login')
-def login_page():
-    if 'userID' in session:
-        data = {
-        'id': session['userID']
-        }
-        one_user = Users.get_profile(data)
-        return render_template('home.html', current_user = one_user)
-    else:
-        return render_template('login.html', current_user = False, session = 0)
 
 # Process Login, for login form
 @app.route('/process_login', methods=["POST"])
