@@ -19,7 +19,7 @@ def home():
         one_user = Users.get_profile(data)
         return render_template('home.html', current_user = one_user)
     else:
-        return render_template('home.html', current_user = False, session = 0)
+        return render_template('login.html', current_user = False, session = 0)
 
 # Register Page
 @app.route('/register')
