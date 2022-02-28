@@ -1,6 +1,7 @@
 from flask import flash
 import re
 from flask_app import app
+from flask_app.models import listing_mod
 from flask_app.config.mysqlconnection import connectToMySQL
 
 EMAIL_REGEX = re.compile(r'^[a-zA-Z0-9.+_-]+@[a-zA-Z0-9._-]+\.[a-zA-Z]+$')
@@ -87,3 +88,23 @@ class Users:
         query = "UPDATE users SET first_name=%(first_name)s, last_name=%(last_name)s, updated_at=NOW() WHERE id = %(id)s"
         results = connectToMySQL(cls.db_name).query_db(query, data)
         return results
+
+    @classmethod
+    def user_listings(cls,data):
+        query = "select * from users left join listings on users.id = projects.userId WHERE users.id = userID"
+        result = connectToMySQL(cls.db).query_db(query, data)
+        user = cls(result[0])
+        for db_row in result:
+            data = {
+                'id': db_row['listings.id'],
+                'title': db_row['title'],
+                'description': db_row['description'],
+                'listPrice': db_row['listPrice'],
+                'created_at': db_row['created_at'],
+                'updated_at': db_row['updated_at'],
+                'userID' : db_row['userID']
+
+            }
+            temp = listing_mod.Listings(data)
+            user.listings.append(temp)
+        return user
