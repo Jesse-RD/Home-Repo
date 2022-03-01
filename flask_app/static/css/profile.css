@@ -53,3 +53,25 @@ img{
 h2{
     margin: 10px;
 }
+
+#buttons{
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+.list_btn{
+    width: 100px;
+    margin: 0;
+}
+
+#delete_btn{
+    color: white;
+    background-color: lightcoral;
+    margin-right: 10px;
+}
+
+#edit_btn{
+    color: white;
+    background-color: #2666CF;
+}
