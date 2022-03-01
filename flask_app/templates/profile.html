@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="profile.css">
+    <link rel="stylesheet" href="{{url_for('static',filename='profile.css')}}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Rubik&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <div id="content">
+            <h1>{{name}} <!--Jinja for name of user--></h1>
+            <div>
+                <button>Create Listing</button>
+                <button>Dashboard</button>
+            </div>
+        </div>
+    </header>
+    <main>
+        <div id="my_listings">
+            <h2>My Listings</h2>
+            <!--For loop for this code-->
+            <div class="listing">
+                <p>Title <!--Jinja for title--></p>
+                <div>
+                    <!--Jinja syntax in src input for the house photo url-->
+                    <img class="house_img" src="images/house.jpg" alt="house">
+                </div>
+            </div>
+            <!--End for-->
+        </div>
+        <div id="favorites">
+            <h2>My Favorites</h2>
+            <!--For loop for this code-->
+            <div class="listing">
+                <p>Title <!--Jinja for title--></p>
+                <div>
+                    <!--Jinja syntax in src input for the house photo url-->
+                    <img class="house_img" src="images/house.jpg" alt="house">
+                </div>
+                <p>Listed by: <!--Jinja for lister--></p>
+            </div>
+            <!--End for-->
+        </div>
+    </main>
+</body>
+</html>
