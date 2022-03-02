@@ -14,7 +14,7 @@
 <body>
     <header>
         <div id="content">
-            <h1>{{user_profile.firstName}}</h1>
+            <h1>{{user_profile.firstName}}'s Profile</h1>
             <div>
                 <button><a href="/new_listing/{{user_profile.id}}">Create Listing</a></button>
                 <button><a href="/">Dashboard</a></button>
@@ -25,11 +25,11 @@
         <div id="my_listings">
             <h2>My Listings</h2>
             {% for listing in listings %}
+            {%if listing.id != none%}
             <div class="listing">
                 <p>{{listing.title}}</p>
                 <div>
-                    {{listing.imgURL}}
-                    <img class="house_img" src="images/house.jpg" alt="house">
+                    <img class="house_img" src="{{listing.imgURL}}" alt="house">
                 </div>
                 <div id="buttons">
                     <form action="/delete_listing/{{user_profile.id}}/{{listing.id}}" method="post">
@@ -38,19 +38,23 @@
                     <button id="edit_btn" class="list_btn"><a href="/edit_listing/{{user_profile.id}}/{{listing.id}}">Edit</a></button>
                 </div>
             </div>
+            {%endif%}
             {% endfor %}
         </div>
         <div id="favorites">
             <h2>My Favorites</h2>
             <!--For loop for this code-->
+            {% for listing in favorite_listings %}
+            {%if listing.id != none%}
             <div class="listing">
-                <p>Title <!--Jinja for title--></p>
+                <p>Title {{listing.title}}</p>
                 <div>
-                    <!--Jinja syntax in src input for the house photo url-->
-                    <img class="house_img" src="images/house.jpg" alt="house">
+                    <img class="house_img" src="{{listing.imgURL}}" alt="house">
                 </div>
-                <p>Listed by: <!--Jinja for lister--></p>
+                <p>Listed by: {{listing.firstName}} {{listing.lastName}}</p>
             </div>
+            {%endif%}
+            {%endfor%}
             <!--End for-->
         </div>
     </main>
