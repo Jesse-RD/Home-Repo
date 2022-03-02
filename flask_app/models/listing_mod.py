@@ -14,7 +14,6 @@ class Listings:
         self.updatedDate = data['updatedDate']
         self.userId = data['userId']
         self.likes = []
-        self.user = []
 
 # Confirm fields are filled out
     @staticmethod
