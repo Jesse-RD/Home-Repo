@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>View</title>
-    <link rel="stylesheet" href="view.css">
+    <link rel="stylesheet" href="/static/css/view.css">
     <link rel="stylesheet" href="{{url_for('static',filename='view.css')}}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -16,18 +16,18 @@
         <div id="content">
             <h1>View</h1>
             <div>
-                <button>Back</button>
+                <button><a href="/dashboard">Back</a></button>
             </div>
         </div>
     </header>
     <main>
         <div id="image">
-            <img src="images/house.jpg" alt="house">
+            <img src="{{listing_info.imgURL}}" alt="house">
         </div>
         <div id="info">
-            <h2>Listed by: <!--Jinja syntax--></h2>
-            <p>description Lorem ipsum dolor sit amet consectetur adipisicing elit. Facere in veniam consequatur tempora obcaecati laborum, impedit explicabo voluptatem quisquam quo quidem pariatur! Harum in quos consequatur, dolorum nisi aliquid nam!<!--Jinja syntax--></p>
-            <p id="price">price<!--Jinja syntax--></p>
+            <h2>Listed by: {{listing_info.userId}}</h2> <!-- Having trouble linking first/last name to jinja here. -->
+            <p>{{listing_info.description}}</p>
+            <p id="price">${{listing_info.listPrice}}</p>
         </div>
     </main>
 </body>

@@ -49,8 +49,6 @@ class Users:
     def validate_login(user):
         is_valid = True
         users_with_email = Users.get_by_email({'email': user['email']})
-
-        print(users_with_email)
         if not users_with_email:
             flash("Invalid Email/Password. Please Try Again.")
             is_valid = False

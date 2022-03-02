@@ -14,6 +14,7 @@ class Listings:
         self.updatedDate = data['updatedDate']
         self.userId = data['userId']
         self.likes = []
+        self.user = []
 
 # Confirm fields are filled out
     @staticmethod
@@ -55,7 +56,7 @@ class Listings:
 # Get all home listings, for public listing page
     @classmethod
     def get_listings(cls):
-        query = "SELECT * FROM listings;"
+        query = "SELECT * FROM listings LEFT JOIN users ON listings.userId = users.id WHERE userId = users.id;"
         results = connectToMySQL(cls.db_name).query_db(query)
         if not results:
             return False
@@ -65,15 +66,13 @@ class Listings:
         for row in results:
             row['likes'] = Listings.get_listing_likes(row)
             all_listings.append(row)
-
-        print(all_listings)
         
         return all_listings
 
 # Get all home listings, for public listing page
     @classmethod
     def get_one_listing(cls, data):
-        query = "SELECT * FROM listings WHERE id = %(id)s;"
+        query = "SELECT * FROM listings LEFT JOIN users ON listings.userId = users.id WHERE listings.id = %(id)s;"
         results = connectToMySQL(cls.db_name).query_db(query, data)
         if not results:
             return False
