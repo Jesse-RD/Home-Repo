@@ -4,93 +4,74 @@ from flask_app.models.listing_mod import Listings
 from flask_app.models.user_mod import Users
 
 # Add template for "new listing"
-@app.route('/new_listing/<int:userID>')
-def create_listing(userID):
-    if 'userID' not in session:
+@app.route('/new_listing/<int:userId>')
+def create_listing(userId):
+    if 'userId' not in session:
         return redirect('/')
-    
-    userID = session['userID']
-    return render_template('new_listing.html', current_user = userID)
+    userId = session['userId']
+    print(userId)
+    return render_template('create.html', current_user = userId)
 
-@app.route('/process_listing/<int:userID>', methods=['POST'])
-def process_listing(userID):
-    userID = session['userID']
+@app.route('/process_listing/<int:userId>', methods=['POST'])
+def process_listing(userId):
+    userId = session['userId']
     if not Listings.validate_listing(request.form):
-        # Add template for "new listing"
-        return redirect(f'/new_listing/{userID}') 
+        return redirect(f'/new_listing/{userId}') 
     
     data = {
-        'title': request.form['name'],
+        'title': request.form['title'],
         'description': request.form['description'],
         'listPrice': request.form['listPrice'],
-        'userID': session['userID']
+        'imgURL': request.form['imgURL'],
+        'userId': session['userId']
     }
     Listings.save_listing(data)
-    # Add template for "profile" page
-    return redirect(f'/profile/{userID}')
+    return redirect(f'/profile/{userId}')
 
-@app.route('/listings/<int:listingID>')
-def all_listings(listingID):
-    if 'userID' in session:
-        user_data = {
-            'id': session['userID']
-        }
-        list_data = {
-            'listingID': listingID
-        }
-        one_user = Users.get_profile(user_data)
-        all_listings = Listings.get_listings(list_data)
-        return render_template('listings.html', current_user = one_user, listings = all_listings)
-    else:
-        list_data = {
-            'listingID': listingID
-        }
-        all_listings = Listings.get_listings(list_data)
-        return render_template('listings.html', current_user = False, session = 0, listings = all_listings)
-
-@app.route('/edit_listing/<int:userID>/<listingID>')
-def edit_listing(userID, listingID):
-    userID = session['userID']
+@app.route('/edit_listing/<int:userId>/<listingID>')
+def edit_listing(userId, listingID):
+    userId = session['userId']
     data = {
         'id': listingID
     }
-    one_listing = Listings.get_listings(data)
-    return render_template('edit_listing.html', current_user = userID, listing = one_listing)
+    one_listing = Listings.get_one_listing(data)
+    return render_template('edit.html', current_user = userId, listing = one_listing)
 
-@app.route('/update_listing/<int:userID>/<listingID>', methods=['POST'])
-def update_listing(userID, listingID):
-    userID = session['userID']
-    if 'userID' not in session:
+@app.route('/update_listing/<int:userId>/<listingID>', methods=['POST'])
+def update_listing(userId, listingID):
+    userId = session['userId']
+    if 'userId' not in session:
         return redirect('/')
     if not Listings.validate_edit(request.form):
-        return redirect(f'/edit_listing/{userID}/{listingID}')
+        return redirect(f'/create/{userId}/{listingID}')
     data = {
         'id': listingID,
         'title': request.form['title'],
         'description': request.form['description'],
         'listPrice': request.form['listPrice'],
-        'userID': session['userID']
+        'imgURL': request.form['imgURL'],
+        'userId': session['userId']
     }
     Listings.update_listing(data)
-    return redirect(f'/profile/{userID}')
+    return redirect(f'/profile/{userId}')
 
-@app.route('/delete_listing/<int:userID>/<listingID>', methods=['POST'])
-def delete_listing(userID, listingID):
-    userID = session['userID']
-    if 'user_id' not in session:
+@app.route('/delete_listing/<int:userId>/<listingID>', methods=['POST'])
+def delete_listing(userId, listingID):
+    userId = session['userID']
+    if 'userId' not in session:
         return redirect('/')
     data = {
         'id': listingID
     }
     Listings.delete_listing(data)
-    return redirect(f'/profile/{userID}')
+    return redirect(f'/profile/{userId}')
 
-@app.route('/like_listing/<int:userID>/<listingID>')
-def like_listing(userID, listingID):
-    if 'user_id' not in session:
+@app.route('/like_listing/<int:userId>/<listingID>')
+def like_listing(userId, listingID):
+    if 'userId' not in session:
         return redirect('/')
     data = {
-        'userID': userID,
+        'userId': userId,
         'listingID' : listingID
     }
 

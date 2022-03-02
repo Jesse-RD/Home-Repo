@@ -19,12 +19,14 @@
     </header>
     <main>
         <div id="edit_container">
-            <form action="">
-                <input type="text" placeholder="{{title}}"><br>
-                <textarea type="text" rows="7" cols="35" placeholder="{{description}}"></textarea><br>
+            <form action="/update_listing/{{current_user}}/{{listing.id}}" method="post">
+                <input type="text" name="title" placeholder="Title" value="{{listing.title}}"><br>
+                <input type="url" name="imgURL" id="" placeholder="Image URL" value="{{listing.imgURL}}"><br>
+                <input type="text" name="listPrice" placeholder="List Price" value="{{listing.listPrice}}"><br>
+                <textarea type="text" name="description" rows="7" cols="35" placeholder="Description">{{listing.description}}</textarea><br>
                 <div id="buttons">
                     <button>Back</button>
-                    <button>Submit</button>
+                    <button type="submit">Submit</button>
                 </div>
             </form>
         </div>

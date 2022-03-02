@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard</title>
     <link rel="stylesheet" href="dashboard.css">
-    <!--<link rel="stylesheet" href="{{url_for('static',filename='dashboard.css')}}">-->
+    <link rel="stylesheet" href="{{url_for('static',filename='dashboard.css')}}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Rubik&display=swap" rel="stylesheet">
@@ -16,8 +16,11 @@
         <div id="content">
             <h1>Home Repo</h1>
             <div>
-                <button>My Profile</button>
-                <button id="logout_btn">Logout</button>
+                <button><a href="/profile/{{current_user.id}}">My Profile</a></button>
+                <!-- Jesse: Changed logout button to form for post method -->
+                <form action="/logout" method="post">
+                    <button id="logout_btn" type="submit">Logout</button>
+                </form>
             </div>
         </div>
     </header>

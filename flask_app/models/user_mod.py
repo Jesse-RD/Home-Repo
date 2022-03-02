@@ -10,15 +10,15 @@ from flask_bcrypt import Bcrypt
 bcrypt = Bcrypt(app)
 
 class Users:
-    db_name = "Home_Listing_Project_ERD"
+    db_name = "homelisting"
     def __init__(self, data):
         self.id = data['id']
-        self.first_name = data['first_name']
-        self.last_name = data['last_name']
+        self.firstName = data['firstName']
+        self.lastName = data['lastName']
         self.email = data['email']
         self.password = data['password']
-        self.created_at = data['created_at']
-        self.updated_at = data['updated_at']
+        self.createdDate = data['createdDate']
+        self.updatedDate = data['updatedDate']
         self.listings = []
 
     @staticmethod
@@ -28,10 +28,10 @@ class Users:
         if users_with_email:
             flash("There is already an account associated with this email.")
             is_valid = False
-        if len(user['first_name']) < 2:
+        if len(user['firstName']) < 2:
             flash("Please provide a first name.")
             is_valid = False
-        if len(user['last_name']) < 2:
+        if len(user['lastName']) < 2:
             flash("Please provide a last name.")
             is_valid = False
         if not EMAIL_REGEX.match(user['email']):
@@ -80,19 +80,19 @@ class Users:
 
     @classmethod
     def save_user(cls, data):
-        query = "INSERT INTO users (first_name, last_name, email, password, created_at, updated_at) VALUES (%(first_name)s, %(last_name)s, %(email)s, %(password)s, NOW(), NOW());"
+        query = "INSERT INTO users (firstName, lastName, email, password, createdDate, updatedDate) VALUES (%(firstName)s, %(lastName)s, %(email)s, %(password)s, NOW(), NOW());"
         return connectToMySQL(cls.db_name).query_db(query, data)
 
     @classmethod
     def edit_user(cls, data):
-        query = "UPDATE users SET first_name=%(first_name)s, last_name=%(last_name)s, updated_at=NOW() WHERE id = %(id)s"
+        query = "UPDATE users SET firstName=%(firstName)s, lastName=%(lastName)s, updated_at=NOW() WHERE id = %(id)s"
         results = connectToMySQL(cls.db_name).query_db(query, data)
         return results
 
     @classmethod
-    def user_listings(cls,data):
-        query = "select * from users left join listings on users.id = projects.userId WHERE users.id = userID"
-        result = connectToMySQL(cls.db).query_db(query, data)
+    def user_listings(cls, data):
+        query = "select * from users left join listings on users.id = listings.userId WHERE users.id = %(userId)s"
+        result = connectToMySQL(cls.db_name).query_db(query, data)
         user = cls(result[0])
         for db_row in result:
             data = {
@@ -100,10 +100,10 @@ class Users:
                 'title': db_row['title'],
                 'description': db_row['description'],
                 'listPrice': db_row['listPrice'],
-                'created_at': db_row['created_at'],
-                'updated_at': db_row['updated_at'],
-                'userID' : db_row['userID']
-
+                'imgURL': db_row['imgURL'],
+                'createdDate': db_row['createdDate'],
+                'updatedDate': db_row['updatedDate'],
+                'userId' : db_row['userId']
             }
             temp = listing_mod.Listings(data)
             user.listings.append(temp)

@@ -1,5 +1,6 @@
 from flask_app import app
 from flask import render_template, redirect, request, session, flash
+from flask_app.models.listing_mod import Listings
 from flask_app.models.user_mod import Users
 from flask_bcrypt import Bcrypt
 bcrypt = Bcrypt(app)
@@ -12,12 +13,12 @@ bcrypt = Bcrypt(app)
 # Home Page
 @app.route('/')
 def home():
-    if 'userID' in session:
+    if 'userId' in session:
         data = {
-        'id': session['userID']
+        'id': session['userId']
         }
         one_user = Users.get_profile(data)
-        return render_template('home.html', current_user = one_user)
+        return render_template('dashboard.html', current_user = one_user)
     else:
         return render_template('login.html', current_user = False, session = 0)
 
@@ -28,13 +29,13 @@ def process_user():
         return redirect('/register')
     pw_hash = bcrypt.generate_password_hash(request.form['password'])
     data = {
-        'first_name': request.form['first_name'],
-        'last_name': request.form['last_name'],
+        'firstName': request.form['firstName'],
+        'lastName': request.form['lastName'],
         'email': request.form['email'],
         'password': pw_hash
     }
-    userID = Users.save_user(data)
-    session['userID'] = userID
+    userId = Users.save_user(data)
+    session['userId'] = userId
     return redirect('/')
 
 # Process Login, for login form
@@ -44,17 +45,33 @@ def user_login():
         return redirect('/login')
     data = {'email': request.form['email']}
     user_with_email = Users.get_by_email(data)
-    userID = user_with_email.id
-    if 'user_id' in session:
-        return redirect(f'/profile/{userID}')
+    userId = user_with_email.id
+    if 'userId' in session:
+        return redirect(f'/profile/{userId}')
     if user_with_email == False:
         flash("Invalid Email/Password.")
         return redirect('/')
     if not bcrypt.check_password_hash(user_with_email.password, request.form['password']):
         flash("Invalid Email/Password.")
         return redirect('/')
-    session['userID'] = user_with_email.id
+    session['userId'] = user_with_email.id
     return redirect('/')
+
+@app.route('/profile/<int:userId>')
+def user_profile(userId):
+    if 'userId' not in session:
+        return redirect('/')
+    user_data = {
+        'id': session['userId'],
+        'userId': userId
+    }
+    listing = Users.user_listings(user_data)
+    one_user = Users.get_profile(user_data)
+    print("***********")
+    print(listing.listings)
+    if one_user == False:
+        return redirect('/login')
+    return render_template('profile.html', user_profile = one_user, listings = listing.listings)
 
 # Logout, for logout form/button
 @app.route('/logout', methods=['POST'])

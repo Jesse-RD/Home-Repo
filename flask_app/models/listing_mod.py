@@ -3,16 +3,16 @@ from flask import flash
 from flask_app.models import user_mod
 
 class Listings:
-    db_name = "Home_Listing_Project_ERD"
+    db_name = "homelisting"
     def __init__(self, data):
         self.id = data['id']
         self.title = data['title']
         self.description = data['description']
         self.listPrice = data['listPrice']
         self.imgURL = data['imgURL']
-        self.createDate = data['created_at']
-        self.updatedDate = data['updated_at']
-        self.useriD = data['updated_at']
+        self.createDate = data['createdDate']
+        self.updatedDate = data['updatedDate']
+        self.userId = data['userId']
         self.likes = []
 
 # Confirm fields are filled out
@@ -48,7 +48,7 @@ class Listings:
 # Save new home listing
     @classmethod
     def save_listing(cls, data):
-        query = "INSERT INTO listings (title, description, listPrice, createdDate, updatedDate, userID) VALUES (%(title)s, %(description)s, %(listPrice)s, NOW(), NOW(), %(userID)s);"
+        query = "INSERT INTO listings (title, description, listPrice, imgURL, createdDate, updatedDate, userId) VALUES (%(title)s, %(description)s, %(listPrice)s, %(imgURL)s, NOW(), NOW(), %(userId)s);"
         results = connectToMySQL(cls.db_name).query_db(query, data)
         return results
 
@@ -80,7 +80,7 @@ class Listings:
 # Edit home listing
     @classmethod
     def update_listing(cls, data):
-        query = "UPDATE listings SET name=%(name)s, prod_desc=%(description)s, price=%(listPrice)s, updatedDate=NOW() WHERE id = %(id)s"
+        query = "UPDATE listings SET title=%(title)s, description=%(description)s, listPrice=%(listPrice)s, imgURL=%(imgURL)s, updatedDate=NOW() WHERE id = %(id)s"
         results = connectToMySQL(cls.db_name).query_db(query, data)
         return results
 
@@ -95,7 +95,7 @@ class Listings:
     def like_listing(cls, data):
         query = "INSERT INTO likes (userID, listingID) VALUES (%(userID)s, %(listingID)s;"
         results = connectToMySQL(cls.db_name).query_db(query, data)
-        return results       
+        return results
 
     @classmethod
     def get_listing_likes(cls, data):

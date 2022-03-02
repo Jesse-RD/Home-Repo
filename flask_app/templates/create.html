@@ -11,6 +11,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Rubik&display=swap" rel="stylesheet">
 </head>
+<!-- Jesse: Added list price and image url fields to link to back end, change look as necessary -->
 <body>
     <header>
         <div id="content">
@@ -19,12 +20,14 @@
     </header>
     <main>
         <div id="edit_container">
-            <form action="">
-                <input type="text" placeholder="{{title}}"><br>
-                <textarea type="text" rows="7" cols="35" placeholder="{{description}}"></textarea><br>
+            <form action="/process_listing/{{current_user}}" method="post">
+                <input type="text" name="title" placeholder="Title"><br>
+                <input type="url" name="imgURL" id="" placeholder="Image URL"><br>
+                <input type="text" name="listPrice" placeholder="List Price"><br>
+                <textarea type="text" name="description" rows="7" cols="35" placeholder="Description"></textarea><br>
                 <div id="buttons">
-                    <button>Back</button>
-                    <button>Submit</button>
+                    <button><a href="/profile/{{current_user}}">Back</a></button>
+                    <button type="submit">Submit</button>
                 </div>
             </form>
         </div>
