@@ -9,7 +9,6 @@ def create_listing(userId):
     if 'userId' not in session:
         return redirect('/')
     userId = session['userId']
-    print(userId)
     return render_template('create.html', current_user = userId)
 
 @app.route('/process_listing/<int:userId>', methods=['POST'])
@@ -55,6 +54,18 @@ def update_listing(userId, listingID):
     Listings.update_listing(data)
     return redirect(f'/profile/{userId}')
 
+@app.route('/view_listing/<int:userId>/<listingID>')
+def single_listing(userId, listingID):
+    session['userId'] = userId
+    if 'userId' not in session:
+        return redirect('/')
+    data = {
+        'id': listingID
+
+    }
+    listings = Listings.get_one_listing(data)
+    return render_template('view.html', listing_info = listings)
+
 @app.route('/delete_listing/<int:userId>/<listingID>', methods=['POST'])
 def delete_listing(userId, listingID):
     userId = session['userId']
@@ -90,7 +101,7 @@ def unlike_listing(userId, listingID):
 
     Listings.unlike_listing(data)
 
-    return redirect('/')
+    return redirect(f'/profile/{userId}')
 
 
 

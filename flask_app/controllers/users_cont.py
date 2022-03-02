@@ -22,10 +22,9 @@ def home():
 def dashboard():
     if 'userId' in session:
         data = {
-        'id': session['userId']
+            'id': session['userId']
         }
         one_user = Users.get_profile(data)
-        
         return render_template('dashboard.html', current_user = one_user, all_listings = Listings.get_listings())
     else:
         return redirect ('/')
@@ -56,7 +55,6 @@ def user_login():
 
     user_with_email = Users.get_by_email(data)
 
-    print(user_with_email.id)
     
     if user_with_email == False:
         flash("Invalid Email/Password.")
@@ -79,8 +77,6 @@ def user_profile(userId):
     }
     listing = Users.user_listings(user_data)
     one_user = Users.get_profile(user_data)
-    print("***********")
-    print(listing.listings)
     if one_user == False:
         return redirect('/login')
     return render_template('profile.html', user_profile = one_user, listings = listing.listings, favorite_listings = Listings.get_favorite_listings(user_data) )

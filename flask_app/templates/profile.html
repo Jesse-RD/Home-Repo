@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard</title>
-    <link rel="stylesheet" href="profile.css">
+    <link rel="stylesheet" href="/static/css/profile.css">
     <link rel="stylesheet" href="{{url_for('static',filename='profile.css')}}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -29,7 +29,7 @@
             <div class="listing">
                 <p>{{listing.title}}</p>
                 <div>
-                    <img class="house_img" src="{{listing.imgURL}}" alt="house">
+                    <a href="/view_listing/{{user_profile.id}}/{{listing.id}}"><img class="house_img" src="{{listing.imgURL}}" alt="house"></a>
                 </div>
                 <div id="buttons">
                     <form action="/delete_listing/{{user_profile.id}}/{{listing.id}}" method="post">
@@ -43,19 +43,22 @@
         </div>
         <div id="favorites">
             <h2>My Favorites</h2>
-            <!--For loop for this code-->
             {% for listing in favorite_listings %}
-            {%if listing.id != none%}
-            <div class="listing">
-                <p>Title {{listing.title}}</p>
-                <div>
-                    <img class="house_img" src="{{listing.imgURL}}" alt="house">
+                {%if listing.id != none%}
+                <div class="listing">
+                    <p>Title {{listing.title}}</p>
+                    <div>
+                        <a href="/view_listing/{{user_profile.id}}/{{listing.id}}"><img class="house_img" src="{{listing.imgURL}}" alt="house"></a>
+                    </div>
+                    <p>Listed by: {{listing.firstName}} {{listing.lastName}}</p>
+                    <div id="buttons">
+                        <form action="/unlike_listing/{{user_profile.id}}/{{listing.id}}">
+                            <button id="delete_btn" class="list_btn" type="submit">Delete</button>
+                        </form>
+                    </div>
                 </div>
-                <p>Listed by: {{listing.firstName}} {{listing.lastName}}</p>
-            </div>
-            {%endif%}
+                {%endif%}
             {%endfor%}
-            <!--End for-->
         </div>
     </main>
 </body>
