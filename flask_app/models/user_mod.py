@@ -49,6 +49,8 @@ class Users:
     def validate_login(user):
         is_valid = True
         users_with_email = Users.get_by_email({'email': user['email']})
+
+        print(users_with_email)
         if not users_with_email:
             flash("Invalid Email/Password. Please Try Again.")
             is_valid = False
@@ -91,7 +93,7 @@ class Users:
 
     @classmethod
     def user_listings(cls, data):
-        query = "select * from users left join listings on users.id = listings.userId WHERE users.id = %(userId)s"
+        query = "select * from users left join listings on users.id = listings.userId WHERE users.id = %(id)s"
         result = connectToMySQL(cls.db_name).query_db(query, data)
         user = cls(result[0])
         for db_row in result:

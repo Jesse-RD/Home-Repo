@@ -57,7 +57,7 @@ def update_listing(userId, listingID):
 
 @app.route('/delete_listing/<int:userId>/<listingID>', methods=['POST'])
 def delete_listing(userId, listingID):
-    userId = session['userID']
+    userId = session['userId']
     if 'userId' not in session:
         return redirect('/')
     data = {
@@ -71,13 +71,26 @@ def like_listing(userId, listingID):
     if 'userId' not in session:
         return redirect('/')
     data = {
-        'userId': userId,
+        'userID': userId,
         'listingID' : listingID
     }
 
     Listings.like_listing(data)
 
-    return redirect(f'/listings/{listingID}')
+    return redirect('/')
+
+@app.route('/unlike_listing/<int:userId>/<listingID>')
+def unlike_listing(userId, listingID):
+    if 'userId' not in session:
+        return redirect('/')
+    data = {
+        'userID': userId,
+        'listingID' : listingID
+    }
+
+    Listings.unlike_listing(data)
+
+    return redirect('/')
 
 
 

@@ -65,6 +65,8 @@ class Listings:
         for row in results:
             row['likes'] = Listings.get_listing_likes(row)
             all_listings.append(row)
+
+        print(all_listings)
         
         return all_listings
 
@@ -87,20 +89,39 @@ class Listings:
 # Delete home listing
     @classmethod
     def delete_listing(cls, data):
+        #delete likes
+        query = "DELETE FROM likes WHERE listingID = %(id)s;"
+
+        connectToMySQL(cls.db_name).query_db(query, data)
+
+        #delete listing
         query = "DELETE FROM listings WHERE id = %(id)s;"
+        
         return connectToMySQL(cls.db_name).query_db(query, data)
+
 
 # Like a listing
     @classmethod
     def like_listing(cls, data):
-        query = "INSERT INTO likes (userID, listingID) VALUES (%(userID)s, %(listingID)s;"
+        query = "INSERT INTO likes (userID, listingID) VALUES (%(userID)s, %(listingID)s);"
         results = connectToMySQL(cls.db_name).query_db(query, data)
         return results
 
+    # Unlike a listing
+    @classmethod
+    def unlike_listing(cls, data):
+        query = "DELETE FROM likes WHERE userID = %(userID)s and listingID = %(listingID)s;"
+        
+        return connectToMySQL(cls.db_name).query_db(query, data)
+
     @classmethod
     def get_listing_likes(cls, data):
-        query = "SELECT DISTINCT userID FROM likes WHERE listingID = %(listingID)s"
+
+        query = "SELECT DISTINCT userID FROM likes WHERE listingID = %(id)s;"
         result = connectToMySQL(cls.db_name).query_db(query, data)
+
+        if not result:
+            return result
 
         liked_users = []
 
@@ -108,3 +129,19 @@ class Listings:
             liked_users.append(row)
 
         return liked_users
+
+    @classmethod
+    def get_favorite_listings(cls, data):
+
+        query = "SELECT l.*,firstName,lastName FROM listings l JOIN users U on u.id = l.userId join likes li on li.listingID = l.id and li.userID = %(id)s"
+        result = connectToMySQL(cls.db_name).query_db(query, data)
+
+        if not result:
+            return result
+
+        favorite_listings = []
+
+        for row in result: 
+            favorite_listings.append(row)
+
+        return favorite_listings

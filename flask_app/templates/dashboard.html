@@ -14,7 +14,7 @@
 <body>
     <header>
         <div id="content">
-            <h1>Home Repo</h1>
+            <h1>Home Listing Dashboard</h1>
             <div>
                 <button><a href="/profile/{{current_user.id}}">My Profile</a></button>
                 <!-- Jesse: Changed logout button to form for post method -->
@@ -26,20 +26,37 @@
     </header>
     <main>
         <!--For loop to create a new snippet of identical code for each entry-->
-        <div class="listing">
-            <p>Title <!--Jinja for title--></p>
-            <div>
-                <!--Jinja syntax in src input for the house photo url-->
-                <img class="house_img" src="images/house.jpg" alt="house">
-            </div>
-            <div class="list_info">
-                <p>Listed by: <!--Jinja for the lister name--></p>
-                <div class="likes">
-                    <img class="like_img" src="images/star.png" alt="like">
-                    <p>0<!--Jinja for number of likes--></p>
+
+        <h2>All Listings</h2>
+
+        {%if all_listings != false%}
+        {%for listing in all_listings%}
+            {%if listing.id != none%}
+                <div class="listing">
+                    <p>{{listing.title}}</p>
+                    <div>
+                        <!--Jinja syntax in src input for the house photo url-->
+                        <img class="house_img" src="{{listing.imgURL}}" alt="house">
+                    </div>
+                    <div class="list_info">
+                        <p>Listed by: {{listing.userId}} <!--Id for now until further updates, Jinja for the lister name--></p>
+                        <div class="likes">
+                            {%if current_user.id in listing.likes|map(attribute="userID") %}
+                            <form action="/unlike_listing/{{current_user.id}}/{{listing.id}}">
+                                <button id="unlike_btn" type="submit">Unlike</button>
+                            </form>
+                            {%else%}
+                            <form action="/like_listing/{{current_user.id}}/{{listing.id}}">
+                                <button id="like_btn" type="submit">Like</button>
+                            </form>
+                            {%endif%}
+                            <p>{{listing.likes|length}} Like(s)<!--Jinja for number of likes--></p>
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </div>
+            {%endif%}
+        {% endfor %}
+        {%endif%}
         <!--End for loop-->
     </main>
 </body>
