@@ -25,7 +25,7 @@
             <img src="{{listing_info.imgURL}}" alt="house">
         </div>
         <div id="info">
-            <h2>Listed by: {{listing_info.userId}}</h2> <!-- Having trouble linking first/last name to jinja here. -->
+            <h2>Listed by: {{listing_info.listingOwner.firstName}} {{listing_info.listingOwner.lastName}}</h2> <!-- Having trouble linking first/last name to jinja here. -->
             <p>{{listing_info.description}}</p>
             <p id="price">${{listing_info.listPrice}}</p>
         </div>

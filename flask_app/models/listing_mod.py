@@ -14,6 +14,10 @@ class Listings:
         self.updatedDate = data['updatedDate']
         self.userId = data['userId']
         self.likes = []
+        self.listingOwner = {
+            'firstName' : '',
+            'lastName' : ''
+        }
 
 # Confirm fields are filled out
     @staticmethod
@@ -75,7 +79,13 @@ class Listings:
         results = connectToMySQL(cls.db_name).query_db(query, data)
         if not results:
             return False
-        return cls(results[0])
+
+        current_listing = cls(results[0])
+
+        current_listing.listingOwner['firstName'] = results[0]['firstName']
+        current_listing.listingOwner['lastName'] = results[0]['lastName']
+
+        return current_listing
 
 # Edit home listing
     @classmethod
