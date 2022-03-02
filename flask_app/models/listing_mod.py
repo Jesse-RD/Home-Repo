@@ -23,7 +23,7 @@ class Listings:
             flash("Please provide a title for this listing.")
             is_valid = False
         if len(listing['description']) < 20:
-            flash("PLease provide a description longer than 20 characters.")
+            flash("Please provide a description longer than 20 characters.")
             is_valid = False
         if len(listing['listPrice']) < 0.01:
             flash("Please provide a price for this listing.")
