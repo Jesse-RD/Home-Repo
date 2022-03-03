@@ -66,7 +66,7 @@ def single_listing(userId, listingID):
     listings = Listings.get_one_listing(data)
     return render_template('view.html', listing_info = listings)
 
-@app.route('/delete_listing/<int:userId>/<listingID>', methods=['POST'])
+@app.route('/delete_listing/<int:userId>/<listingID>')
 def delete_listing(userId, listingID):
     userId = session['userId']
     if 'userId' not in session:
