@@ -16,10 +16,11 @@
         <div id="content">
             <h1>View</h1>
             <div>
-                <button><a href="/dashboard">Back</a></button>
+                <a href="/dashboard" class="btn">Back</a>
             </div>
         </div>
     </header>
+    <hr>
     <main>
         <div id="image">
             <img src="{{listing_info.imgURL}}" alt="house">
@@ -27,7 +28,7 @@
         <div id="info">
             <h2>Listed by: {{listing_info.listingOwner.firstName}} {{listing_info.listingOwner.lastName}}</h2> <!-- Having trouble linking first/last name to jinja here. -->
             <p>{{listing_info.description}}</p>
-            <p id="price">${{listing_info.listPrice}}</p>
+            <p id="price">Price : ${{listing_info.listPrice}}</p>
         </div>
     </main>
 </body>

@@ -3,42 +3,82 @@
     padding: 0;
     font-family: 'Rubik', sans-serif;
 }
+body{
+    background:rgba(0,0,0,0.5) url(real-estate.webp);
+    background-size: cover;
+    background-position: center;
+    background-blend-mode: darken;
+
+}
+#my_listing{
+    width: 50%;
+    height: 40%;
+}
+
 
 header{
-    background-color: #2666CF;
+    
     color: white;
     padding: 20px;
+    background:rgba(0,0,0,0.4)
 }
 
 main{
     display: flex;
-    justify-content: space-evenly;
+    justify-content: space-between;
     width: 70%;
     margin: 0 auto;
     padding: 10px;
 }
 
 #content{
-    width: 70%;
-    margin: 0 auto;
+    
     display: flex;
     justify-content: space-between;
     align-items: center;
+    background-image: linear-gradient(rgba(0,0,0,0.75),rgba(0,0,0,0.75), url(home.jpg));
 }
 
-button{
-    width: 120px;
-    padding: 5px 8px;
-    background-color: white;
-    border: 1px solid black;
-    font-size: 15px;
-    margin-left: 10px;
+.btn {
+    text-decoration: none;
+    width: 90px;
+    padding: 6px 10px;
+    position: relative;
+    background: black;
+    color: white;
+    border-radius: 30px;
+    transition: transform 0.03s ease;
+    text-align: center;
+    align-items: center;
 }
 
-button:hover{
-    cursor: pointer;
-    opacity: 80%;
+.btn::after, .btn::before{
+    content: "";
+    position: absolute;
+    opacity: 0.3;
+    background: black;
+    border-radius: inherit;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    bottom: 0;
+    z-index: -1;
+    transition: transfrom 0.3s ease;
 }
+
+.btn:hover{
+    transform: translate(-6px,-6px);
+}
+
+.btn:hover::after{
+    transform: translate(3px,3px);
+}
+
+.btn:hover::before{
+    transform: translate(6px,6px);
+}
+
+
 
 .listing{
     background-color: rgb(236, 236, 236);
@@ -46,32 +86,25 @@ button:hover{
     border-radius: 10px;
 }
 
+.listing:hover{
+    transform: translate(-0px,-6px);
+}
+
+.listing::after, .listing::before{
+    transition: transfrom 0.3s ease;
+}
+
 img{
-    height: 250px;
+    height: 150px;
 }
 
 h2{
     margin: 10px;
+    color: whitesmoke;
 }
 
 #buttons{
     display: flex;
-    justify-content: center;
+    
     margin-top: 10px;
-}
-
-.list_btn{
-    width: 100px;
-    margin: 0;
-}
-
-#delete_btn{
-    color: white;
-    background-color: lightcoral;
-    margin-right: 10px;
-}
-
-#edit_btn{
-    color: white;
-    background-color: #2666CF;
 }

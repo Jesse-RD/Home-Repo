@@ -16,18 +16,20 @@
         <div id="content">
             <h1>Home Listing Dashboard</h1>
             <div>
-                <button><a href="/profile/{{current_user.id}}">My Profile</a></button>
-                    <button id="logout_btn"><a href="/logout">Logout</a></button>
+                <a href="/profile/{{current_user.id}}" class="btn">My Profile</a>
+                <a href="/logout" class="btn">Logout</a>
             </div>
         </div>
     </header>
+    <hr>
     <main>
         <h2>All Listings</h2>
         {%if all_listings != false%}
         {%for listing in all_listings%}
             {%if listing.id != none%}
                 <div class="listing">
-                    <p>{{listing.title}}</p>
+                    <h3>{{listing.title}}</h3>
+                    <br>
                     <div>
                         <a href="/view_listing/{{current_user.id}}/{{listing.id}}"><img class="house_img" src="{{listing.imgURL}}" alt="house"></a>
                     </div>
@@ -36,13 +38,9 @@
                         <div class="likes">
                             {%if current_user.id != listing.userId%}
                                 {%if current_user.id in listing.likes|map(attribute="userID") %}
-                                <form action="/unlike_listing/{{current_user.id}}/{{listing.id}}">
-                                    <button id="unlike_btn" type="submit">Unlike</button>
-                                </form>
+                                <a href="/unlike_listing/{{current_user.id}}/{{listing.id}}" class="btn">Unlike</a>
                                 {%else%}
-                                <form action="/like_listing/{{current_user.id}}/{{listing.id}}">
-                                    <button id="like_btn" type="submit">Like</button>
-                                </form>
+                                <a href="/like_listing/{{current_user.id}}/{{listing.id}}" class="btn">Like</a>
                                 {%endif%}
                             {%endif%}
                             <p>{{listing.likes|length}} Like(s)</p>
