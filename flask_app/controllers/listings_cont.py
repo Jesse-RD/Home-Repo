@@ -42,7 +42,7 @@ def update_listing(userId, listingID):
     if 'userId' not in session:
         return redirect('/')
     if not Listings.validate_edit(request.form):
-        return redirect(f'/create/{userId}/{listingID}')
+        return redirect(f'/edit_listing/{userId}/{listingID}')
     data = {
         'id': listingID,
         'title': request.form['title'],
