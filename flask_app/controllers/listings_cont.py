@@ -63,8 +63,9 @@ def single_listing(userId, listingID):
         'id': listingID
 
     }
-    listings = Listings.get_one_listing(data)
-    return render_template('view.html', listing_info = listings)
+    Listings.get_one_listing(data)
+    
+    return render_template('view.html', listing_info = Listings.get_one_listing(data))
 
 @app.route('/delete_listing/<int:userId>/<listingID>')
 def delete_listing(userId, listingID):
